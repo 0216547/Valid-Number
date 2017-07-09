@@ -1,0 +1,55 @@
+public class Solution {
+    public boolean isNumber(String s) {
+        char[] c = s.trim().toCharArray();
+		if(c.length==0)return false;
+		int firstnum=-1,firstpoint=-1,firste=-1,
+				num=0,numofe=0,numofpoint=0;
+		boolean havenum=false;
+		
+		if(!(('0'<=c[0]&&c[0]<='9')||c[0]=='.'||c[0]=='+'||c[0]=='-')){return false;}
+		
+		if(!(('0'<=c[c.length-1]&&c[c.length-1]<='9')||c[c.length-1]=='.'))return false;
+		
+		for(int i=0;i<c.length;i++){
+			if(i==0){
+				if(c[0]=='+'||c[0]=='-')continue;
+			}else if(!(('0'<=c[i]&&c[i]<='9')||c[i]=='.'||c[i]=='e'||c[i]=='+'||c[i]=='-')){				
+				return false;
+			}
+			if(c[i]==' ')return false;
+			
+			if('0'<=c[i]&&c[i]<='9'){			
+				num++;
+				if(!havenum)firstnum=i;
+				havenum=true;
+			}else if(c[i]=='.'){
+				numofpoint++;
+				firstpoint=i;
+			}else if(c[i]=='e'){
+				numofe++;
+				firste=i;
+			}else if(i!=0){
+				if((c[i]=='+'||c[i]=='-')){
+					if(c[i-1]!='e' ){
+						return false;
+					}else{
+						continue;
+					}
+				
+				}				
+				return false;
+				
+			}
+		}
+		if(numofe>1||numofpoint>1)return false;
+		if(num==0){
+			return false;
+		}else if(numofe==1&&numofpoint==1){
+			if(firstnum>firste)return false;
+			if(firstpoint>firste)return false;
+		}else if(numofe==1&&numofpoint==0){
+			if(firstnum>firste)return false;
+		}
+		 return true;
+    }
+}
